@@ -20,7 +20,13 @@ jobs:
         java-version: '21'
 
     - name: Download APK
-      run: curl -L -o app.apk "https://r2-files.yakov.cloud/com.fidelity.android_3.96-28396040.apk"
+      uses: Yakov5776/gh-apkmirror-dl@v1.1
+      with:
+        org: 'fidelity-investments'
+        repo: 'fidelity-investments'
+        version: '3.96'
+        bundle: false
+        file_name: 'app.apk'
 
     - name: Install Apktool
       run: |
