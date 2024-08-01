@@ -37,10 +37,11 @@ jobs:
     - name: Decompile APK
       run: apktool d app.apk -o app
 
-    - name: Patch AndroidManifest.xml
+    - name: Run Patches
       run: |
-          sed -i 's/android:allowBackup="true"/android:allowBackup="false"/' app/AndroidManifest.xml
+          sed -i 's/android:allowBackup="false"/android:allowBackup="true"/' app/AndroidManifest.xml
           sed -i 's/<string name="f_app_name">Fidelity<\/string>/<string name="f_app_name">FidelitySim<\/string>/' app/res/values/strings.xml
+          cp network_config_patched.xml app/res/xml/network_config.xml
 
     - name: Build APK
       run: apktool b app -o app_patched.apk
