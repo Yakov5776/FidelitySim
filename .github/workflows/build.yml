@@ -29,5 +29,18 @@ jobs:
         chmod +x /usr/local/bin/apktool
 
     - name: Decompile APK
+      run: apktool d app.apk -o app
+
+    - name: Patch AndroidManifest.xml
       run: |
-        apktool d app.apk -o app
+          sed -i 's/android:allowBackup="true"/android:allowBackup="false"/' app/AndroidManifest.xml
+          sed -i 's/<string name="f_app_name">Fidelity<\/string>/<string name="f_app_name">FidelitySim<\/string>/' app/res/values/strings.xml
+
+    - name: Build APK
+      run: apktool b app -o app_patched.apk
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: app.apk
+        path: app_patched.apk
